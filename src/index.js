@@ -1,30 +1,19 @@
 const { GraphQLServer } = require('graphql-yoga')
 const { PrismaClient } = require('@prisma/client')
+const Query = require('./resolvers/Query')
+const Mutation = require('./resolvers/Mutation')
+const User = require('./resolvers/User')
+const Link = require('./resolvers/Link')
 
 /*
  * resolver object is the actual implementation of the GraphQL schema
  * Structure is identical to the typeDefs definition
  */
 const resolvers = {
-    Query:{
-            info: () => `This is the API of a Hackernews Clone`,
-            // feed resolver accesses the prisma object through the context argument.
-            feed: async(parent, args, context) => {
-                return context.prisma.link.findMany()
-            },
-    },
-    Mutation:{
-        post: (parent, args, context, info) => {
-            // Calls the create method on a link from the PrismaClient API
-            const newLink = context.prisma.link.create({
-                data: {
-                    url: args.url,
-                    description: args.description,
-                },
-            })
-            return newLink
-        },
-    },
+    Query,
+    Mutation,
+    User,
+    Link
 }
 
 const prisma = new PrismaClient()

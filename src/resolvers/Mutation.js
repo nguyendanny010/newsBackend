@@ -5,7 +5,7 @@ const { APP_SECRET, getUserId } = require('../utils')
 async function signup(parent, args, context, info) {
     // 1
     // Encrypt user password with bcryptjs library
-    const password = await bcrypt.hash(args.pasword, 10)
+    const password = await bcrypt.hash(args.password, 10)
 
     // 2
     // Store new User in database
@@ -53,7 +53,7 @@ function post(parent, args, context, info){
         data: {
             url: args.url,
             description: args.description,
-            postedBy: { connect: {id: userID } }
+            postedBy: { connect: {id: userId } }
         }
     })
 }
