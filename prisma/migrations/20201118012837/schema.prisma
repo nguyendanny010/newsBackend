@@ -1,0 +1,31 @@
+// 1
+// Datasource tells prisma we are using SQLite for our database connection.
+datasource db {
+  provider = "sqlite" 
+  url = "***"
+}
+
+// 2
+// Generator indicates that we want to generatoe a Prisma Client.
+generator client {
+  provider = "prisma-client-js"
+}
+
+// 3
+// We have written our link as a model
+model Link {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  description String
+  url         String
+  postedBy    User?    @relation(fields: [postedById], references: [id])
+  postedById  Int?
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  links     Link[]
+}
